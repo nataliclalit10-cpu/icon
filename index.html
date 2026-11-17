@@ -43,6 +43,17 @@ button svg.ui{width:18px;height:18px;flex:none}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}
 .bench{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px}
 @media (max-width:860px){.bench{grid-template-columns:1fr}}
+.hero{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel);border:1.5px solid var(--line);border-radius:18px;padding:10px 12px 10px 10px;box-shadow:0 1px 0 var(--line)}
+.hero:focus-within{border-color:var(--accent)}
+.hero .lens{width:26px;height:26px;color:var(--muted);flex:none;margin-inline-start:6px}
+.hero input{flex:1 1 220px;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:20px;padding:10px 4px;outline:none}
+.hero select{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);font:inherit;padding:8px 12px;min-width:0;max-width:100%}
+.main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:18px;align-items:start}
+.editor{display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);max-height:calc(100vh - 24px);overflow-y:auto}
+.editor>*{flex-shrink:0}
+.editor .stage{max-width:240px}
+.editor .actions{justify-content:flex-start}
+@media (max-width:900px){.main{grid-template-columns:1fr}.editor{position:static;max-height:none;overflow:visible}}
 .stagebox{display:flex;flex-direction:column;gap:12px}
 .stage{position:relative;width:100%;max-width:400px;aspect-ratio:1;margin:0 auto;border-radius:10px;overflow:hidden;color:var(--ink)}
 .stage>svg{position:absolute;inset:0;width:100%;height:100%}
@@ -67,7 +78,7 @@ details.code{border:1px solid var(--line);border-radius:10px}
 details.code summary{cursor:pointer;padding:8px 12px;font-size:13px;color:var(--muted)}
 details.code pre{margin:0;padding:12px;overflow-x:auto;font-family:var(--font-mono);font-size:11px;line-height:1.55;direction:ltr;text-align:left;border-top:1px solid var(--line);max-height:200px;white-space:pre-wrap;word-break:break-all}
 .note{font-size:13px;color:var(--muted);margin:0}
-.bin .head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.bin .head{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:12px}
 .bin h2,.set h2{font-size:17px;margin:0;font-weight:600}
 .search{display:flex;gap:8px;flex-wrap:wrap;flex:1 1 320px;justify-content:flex-end}
 .search input,.search select{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);font:inherit;padding:8px 12px;min-width:0}
@@ -88,57 +99,54 @@ details.code pre{margin:0;padding:12px;overflow-x:auto;font-family:var(--font-mo
   <header>
     <div>
       <h1 dir="ltr" style="display:inline-block">Iconix <span class="badge-free">בלי AI · בלי טוקנים</span></h1>
-      <p class="sub">בוחרים אייקון בסיס מתוך סט Iconsax, מוסיפים תוספת בפינה, מסגרת או היפוך, ומקבלים אייקון חדש באותה שפה. הכול רץ בדפדפן.</p>
+      <p class="sub">מחפשים אייקון, בוחרים מהגלריה, ומשנים אותו: תוספת בפינה, מסגרת, היפוך וסגנון. התוצאה היא SVG וקטורי בשפה של Iconsax.</p>
     </div>
     <div class="spec"><span><b>24×24</b></span><span>stroke <b>1.5</b></span><span>round caps</span><span id="countSpec"></span></div>
   </header>
 
-  <section class="bench">
-    <div class="card stagebox">
+  <section class="hero" role="search">
+    <svg class="lens" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 21a9.5 9.5 0 1 0 0-19 9.5 9.5 0 0 0 0 19ZM22 22l-2-2"/></svg>
+    <input id="q" type="search" autocomplete="off" placeholder="חיפוש אייקון: ארנק, לוח שנה, משתמש, calendar…" aria-label="חיפוש אייקון">
+    <select id="cat" aria-label="קטגוריה"><option value="">כל הקטגוריות</option></select>
+  </section>
+
+  <div class="main">
+    <section class="card bin" aria-label="תוצאות">
+      <div class="head"><h2 id="resTitle">כל האייקונים</h2><span class="note" id="resCount"></span></div>
+      <div class="grid" id="bin"></div>
+      <button type="button" class="more" id="moreBtn" hidden>הצגת עוד</button>
+    </section>
+
+    <aside class="card editor" id="editor" aria-label="עריכת האייקון">
       <div class="stage" id="stage"></div>
       <div class="nameRow"><code id="iconName">…</code></div>
       <div class="sizes" id="sizes"></div>
       <div class="row">
         <button type="button" id="gridBtn" aria-pressed="true">גריד</button>
         <label class="sw">צבע <input type="color" id="color" value="#292D32"></label>
-        <button type="button" id="resetColor">איפוס צבע</button>
+        <button type="button" id="resetColor">איפוס</button>
       </div>
-    </div>
-
-    <div class="card ctrls">
       <div class="grp"><h3>סגנון</h3><div class="opts big" id="variantOpts"></div></div>
       <div class="grp"><h3>תוספת בפינה</h3><div class="opts big" id="modOpts"></div></div>
       <div class="grp"><h3>מיקום התוספת</h3><div class="opts" id="cornerOpts"></div></div>
       <div class="grp"><h3>מסגרת</h3><div class="opts big" id="frameOpts"></div></div>
       <div class="grp"><h3>היפוך וסיבוב</h3><div class="opts" id="xfOpts"></div></div>
-      <div class="row" style="justify-content:flex-start">
+      <div class="row actions">
         <button type="button" class="primary" id="dlBtn"><svg class="ui" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5M4 17v1c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-1"/></svg>הורדת SVG</button>
         <button type="button" id="copyBtn">העתקת SVG</button>
-        <button type="button" id="addSetBtn">הוספה לסט שלי</button>
+        <button type="button" id="addSetBtn">הוספה לסט</button>
       </div>
       <div class="status" id="status" role="status" aria-live="polite"></div>
       <p class="note">אחרי ״העתקת SVG״ אפשר להדביק ישר בפיגמה (Ctrl/Cmd+V) ולקבל וקטור שניתן לעריכה.</p>
       <details class="code"><summary>קוד SVG</summary><pre id="code"></pre></details>
-    </div>
-  </section>
+    </aside>
+  </div>
 
   <section class="card set">
     <div class="head"><h2>הסט שלי</h2>
       <div class="row"><button type="button" id="zipBtn">הורדת הסט כ‑ZIP</button><button type="button" id="clearSet">ניקוי הסט</button></div>
     </div>
     <div class="grid" id="setGrid"></div>
-  </section>
-
-  <section class="card bin">
-    <div class="head">
-      <h2>אייקון בסיס</h2>
-      <div class="search">
-        <input id="q" type="search" placeholder="חיפוש בעברית או באנגלית: ארנק, calendar, משתמש…" aria-label="חיפוש אייקון">
-        <select id="cat" aria-label="קטגוריה"><option value="">כל הקטגוריות</option></select>
-      </div>
-    </div>
-    <div class="grid" id="bin"></div>
-    <button type="button" class="more" id="moreBtn" hidden>הצגת עוד</button>
   </section>
 </div>
 
@@ -323,6 +331,8 @@ function filterBin(){
   if(q){terms=[q.replace(/\s+/g,"")];for(const[he,en]of Object.entries(HE)){if(he.includes(q)||q.includes(he))terms.push(en);}}
   filtered=NAMES.filter(n=>(!c||DATA[n].c===c)&&(!terms.length||terms.some(t=>n.toLowerCase().includes(t)||kebab(n).includes(t))));
   shown=0;$("bin").innerHTML="";moreBin();
+  $("resTitle").textContent=q?`תוצאות עבור ״${$("q").value.trim()}״`:(c?c:"כל האייקונים");
+  $("resCount").textContent=`${filtered.length} אייקונים`;
 }
 function moreBin(){
   const slice=filtered.slice(shown,shown+PAGE);shown+=slice.length;
@@ -338,6 +348,7 @@ function renderSet(){
   $("setGrid").innerHTML=setList.length?setList.map((st,i)=>`<div style="position:relative"><button type="button" class="tile" data-set="${i}" style="width:100%" title="${nameOf(st)}">${svgInline(st)}<span>${nameOf(st)}</span></button><button type="button" class="x" data-del="${i}" aria-label="הסרה">×</button></div>`).join(""):`<p class="empty">עוד אין כאן אייקונים. מרכיבים אייקון ולוחצים ״הוספה לסט שלי״.</p>`;
   $("zipBtn").disabled=!setList.length;$("clearSet").disabled=!setList.length;
 }
+function showEditor(){if(window.matchMedia("(max-width:900px)").matches)$("editor").scrollIntoView({behavior:"smooth",block:"start"});}
 function status(t,err){$("status").textContent=t;$("status").classList.toggle("err",!!err);}
 
 document.addEventListener("click",e=>{
@@ -348,8 +359,8 @@ document.addEventListener("click",e=>{
   else if(d.frame){S.frame=d.frame;renderStage();}
   else if(d.xf==="flip"){S.flip=!S.flip;renderStage();}
   else if(d.xf==="rot"){S.rot=(S.rot+90)%360;renderStage();}
-  else if(d.name){S.name=d.name;renderStage();status("");window.scrollTo({top:0,behavior:"smooth"});}
-  else if(d.set){Object.assign(S,setList[+d.set]);$("color").value=S.color;renderStage();rebinVariant();window.scrollTo({top:0,behavior:"smooth"});}
+  else if(d.name){S.name=d.name;renderStage();status("");showEditor();}
+  else if(d.set){Object.assign(S,setList[+d.set]);$("color").value=S.color;renderStage();rebinVariant();showEditor();}
   else if(d.del){setList.splice(+d.del,1);saveSet();renderSet();}
 });
 $("gridBtn").onclick=()=>{S.grid=!S.grid;renderStage();};
