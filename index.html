@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>מרכיב אייקונים</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+/* Layout: workbench on top (stage + controls), the full Iconsax catalogue below as the parts bin. */
+:root{
+  --bg:#F3F4F6; --panel:#FFFFFF; --ink:#292D32; --muted:#6B7280; --line:#E3E5EA;
+  --accent:#3355E0; --accent-soft:#E7ECFF; --grid:#D9DDE5; --pad:#FFE9E0; --danger:#C2410C;
+  --font-ui:"Rubik",system-ui,"Segoe UI",Arial,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15171B; --panel:#1E2127; --ink:#E8EAEE; --muted:#9AA1AD; --line:#2D323A;
+  --accent:#7D95FF; --accent-soft:#252D4A; --grid:#2E333C; --pad:#3A2A24; --danger:#FB923C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15171B; --panel:#1E2127; --ink:#E8EAEE; --muted:#9AA1AD; --line:#2D323A;
+  --accent:#7D95FF; --accent-soft:#252D4A; --grid:#2E333C; --pad:#3A2A24; --danger:#FB923C; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:15px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font-size:28px;font-weight:700;margin:0;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:2px 0 0;max-width:62ch}
+.badge-free{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:500;margin-inline-start:8px;vertical-align:middle}
+.spec{font-family:var(--font-mono);font-size:12px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;direction:ltr}
+.spec b{color:var(--ink);font-weight:500}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 13px;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:background .15s,border-color .15s}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
+button:disabled{opacity:.5;cursor:default}
+button svg.ui{width:18px;height:18px;flex:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}
+.bench{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px}
+@media (max-width:860px){.bench{grid-template-columns:1fr}}
+.stagebox{display:flex;flex-direction:column;gap:12px}
+.stage{position:relative;width:100%;max-width:400px;aspect-ratio:1;margin:0 auto;border-radius:10px;overflow:hidden;color:var(--ink)}
+.stage>svg{position:absolute;inset:0;width:100%;height:100%}
+.nameRow{display:flex;justify-content:center;align-items:baseline;gap:10px;flex-wrap:wrap}
+.nameRow code{font-family:var(--font-mono);font-size:14px;direction:ltr}
+.sizes{display:flex;align-items:flex-end;justify-content:center;gap:18px;flex-wrap:wrap;padding:12px;border:1px dashed var(--line);border-radius:12px;color:var(--ink)}
+.sizes figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:5px}
+.sizes figcaption{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}
+.ctrls{display:flex;flex-direction:column;gap:16px}
+.grp h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:500}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{padding:7px 10px;font-size:13px;color:var(--ink)}
+.opts button svg{width:22px;height:22px}
+.opts.big button{flex-direction:column;min-width:64px;padding:9px 8px;gap:4px;font-size:12px}
+.opts.big button svg{width:28px;height:28px}
+label.sw{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+input[type=color]{width:34px;height:30px;border:1px solid var(--line);border-radius:8px;padding:2px;background:var(--panel)}
+.status{min-height:22px;font-size:14px;color:var(--muted);text-align:center}
+.status.err{color:var(--danger)}
+details.code{border:1px solid var(--line);border-radius:10px}
+details.code summary{cursor:pointer;padding:8px 12px;font-size:13px;color:var(--muted)}
+details.code pre{margin:0;padding:12px;overflow-x:auto;font-family:var(--font-mono);font-size:11px;line-height:1.55;direction:ltr;text-align:left;border-top:1px solid var(--line);max-height:200px;white-space:pre-wrap;word-break:break-all}
+.note{font-size:13px;color:var(--muted);margin:0}
+.bin .head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.bin h2,.set h2{font-size:17px;margin:0;font-weight:600}
+.search{display:flex;gap:8px;flex-wrap:wrap;flex:1 1 320px;justify-content:flex-end}
+.search input,.search select{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);font:inherit;padding:8px 12px;min-width:0}
+.search input{flex:1 1 200px;max-width:340px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;color:var(--ink)}
+.tile{flex-direction:column;padding:12px 4px 8px;gap:6px;min-width:0}
+.tile svg{width:28px;height:28px}
+.tile span{font-family:var(--font-mono);font-size:10px;color:var(--muted);direction:ltr;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile[aria-pressed="true"] span{color:var(--accent)}
+.more{margin:14px auto 0;display:flex}
+.set .head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.set .grid .tile{position:relative}
+.set .x{position:absolute;top:4px;inset-inline-end:4px;padding:0 6px;font-size:13px;line-height:18px;border-radius:6px;color:var(--muted)}
+.empty{color:var(--muted);font-size:14px;padding:6px 0}
+</style>
+
+<div class="wrap" dir="rtl">
+  <header>
+    <div>
+      <h1>מרכיב אייקונים <span class="badge-free">בלי AI · בלי טוקנים</span></h1>
+      <p class="sub">בוחרים אייקון בסיס מתוך סט Iconsax, מוסיפים תוספת בפינה, מסגרת או היפוך, ומקבלים אייקון חדש באותה שפה. הכול רץ בדפדפן.</p>
+    </div>
+    <div class="spec"><span><b>24×24</b></span><span>stroke <b>1.5</b></span><span>round caps</span><span id="countSpec"></span></div>
+  </header>
+
+  <section class="bench">
+    <div class="card stagebox">
+      <div class="stage" id="stage"></div>
+      <div class="nameRow"><code id="iconName">…</code></div>
+      <div class="sizes" id="sizes"></div>
+      <div class="row">
+        <button type="button" id="gridBtn" aria-pressed="true">גריד</button>
+        <label class="sw">צבע <input type="color" id="color" value="#292D32"></label>
+        <button type="button" id="resetColor">איפוס צבע</button>
+      </div>
+    </div>
+
+    <div class="card ctrls">
+      <div class="grp"><h3>סגנון</h3><div class="opts big" id="variantOpts"></div></div>
+      <div class="grp"><h3>תוספת בפינה</h3><div class="opts big" id="modOpts"></div></div>
+      <div class="grp"><h3>מיקום התוספת</h3><div class="opts" id="cornerOpts"></div></div>
+      <div class="grp"><h3>מסגרת</h3><div class="opts big" id="frameOpts"></div></div>
+      <div class="grp"><h3>היפוך וסיבוב</h3><div class="opts" id="xfOpts"></div></div>
+      <div class="row" style="justify-content:flex-start">
+        <button type="button" class="primary" id="dlBtn"><svg class="ui" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5M4 17v1c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-1"/></svg>הורדת SVG</button>
+        <button type="button" id="copyBtn">העתקת SVG</button>
+        <button type="button" id="addSetBtn">הוספה לסט שלי</button>
+      </div>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+      <p class="note">אחרי ״העתקת SVG״ אפשר להדביק ישר בפיגמה (Ctrl/Cmd+V) ולקבל וקטור שניתן לעריכה.</p>
+      <details class="code"><summary>קוד SVG</summary><pre id="code"></pre></details>
+    </div>
+  </section>
+
+  <section class="card set">
+    <div class="head"><h2>הסט שלי</h2>
+      <div class="row"><button type="button" id="zipBtn">הורדת הסט כ‑ZIP</button><button type="button" id="clearSet">ניקוי הסט</button></div>
+    </div>
+    <div class="grid" id="setGrid"></div>
+  </section>
+
+  <section class="card bin">
+    <div class="head">
+      <h2>אייקון בסיס</h2>
+      <div class="search">
+        <input id="q" type="search" placeholder="חיפוש בעברית או באנגלית: ארנק, calendar, משתמש…" aria-label="חיפוש אייקון">
+        <select id="cat" aria-label="קטגוריה"><option value="">כל הקטגוריות</option></select>
+      </div>
+    </div>
+    <div class="grid" id="bin"></div>
+    <button type="button" class="more" id="moreBtn" hidden>הצגת עוד</button>
+  </section>
+</div>
+
+<script>
+// ===== Path geometry (parse → absolute → affine), so composed icons stay plain editable vectors =====
+const CNT={M:2,L:2,H:1,V:1,C:6,S:4,Q:4,T:2,A:7,Z:0};
+function parsePath(d){
+  const segs=[];let i=0,cmd=null;const n=d.length;
+  const skip=()=>{while(i<n&&(d[i]===" "||d[i]===","||d[i]==="\n"||d[i]==="\t"))i++;};
+  const num=()=>{skip();const m=/^[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?/.exec(d.slice(i,i+40));if(!m)throw new Error("num@"+i);i+=m[0].length;return parseFloat(m[0]);};
+  const flag=()=>{skip();const c=d[i];if(c!=="0"&&c!=="1")throw new Error("flag");i++;return +c;};
+  while(true){skip();if(i>=n)break;
+    if(/[a-zA-Z]/.test(d[i]))cmd=d[i++];else if(!cmd)throw new Error("cmd");
+    const U=cmd.toUpperCase();
+    if(U==="Z"){segs.push([cmd]);cmd=null;continue;}
+    const a=[];for(let k=0;k<CNT[U];k++)a.push(U==="A"&&(k===3||k===4)?flag():num());
+    segs.push([cmd,...a]);if(cmd==="M")cmd="L";else if(cmd==="m")cmd="l";}
+  return segs;
+}
+// V needs the current x; rewrite absolutize's V branch cleanly:
+function absolutize2(segs){
+  const out=[];let cx=0,cy=0,sx=0,sy=0;
+  for(const s of segs){const c=s[0],U=c.toUpperCase(),r=c!==U,a=s.slice(1);
+    const X=v=>r?cx+v:v,Y=v=>r?cy+v:v;
+    if(U==="M"){cx=X(a[0]);cy=Y(a[1]);sx=cx;sy=cy;out.push(["M",cx,cy]);}
+    else if(U==="L"||U==="T"){cx=X(a[0]);cy=Y(a[1]);out.push([U,cx,cy]);}
+    else if(U==="H"){cx=X(a[0]);out.push(["L",cx,cy]);}
+    else if(U==="V"){cy=Y(a[0]);out.push(["L",cx,cy]);}
+    else if(U==="C"){const p=[X(a[0]),Y(a[1]),X(a[2]),Y(a[3]),X(a[4]),Y(a[5])];out.push(["C",...p]);cx=p[4];cy=p[5];}
+    else if(U==="S"||U==="Q"){const p=[X(a[0]),Y(a[1]),X(a[2]),Y(a[3])];out.push([U,...p]);cx=p[2];cy=p[3];}
+    else if(U==="A"){const x=X(a[5]),y=Y(a[6]);out.push(["A",a[0],a[1],a[2],a[3],a[4],x,y]);cx=x;cy=y;}
+    else if(U==="Z"){out.push(["Z"]);cx=sx;cy=sy;}
+  }
+  return out;
+}
+const R=v=>{const s=(Math.round(v*1000)/1000).toString();return s==="-0"?"0":s;};
+function txPath(d,m){ // m=[a,b,c,d,e,f]
+  const [a,b,c,dd,e,f]=m;const P=(x,y)=>R(a*x+c*y+e)+" "+R(b*x+dd*y+f);
+  const det=a*dd-b*c,sc=Math.sqrt(Math.abs(det)),rot=Math.atan2(b,a)*180/Math.PI;
+  return absolutize2(parsePath(d)).map(s=>{const U=s[0];
+    if(U==="Z")return"Z";
+    if(U==="A")return`A${R(s[1]*sc)} ${R(s[2]*sc)} ${R(s[3]+rot)} ${s[4]} ${det<0?1-s[5]:s[5]} ${P(s[6],s[7])}`;
+    const pts=[];for(let k=1;k<s.length;k+=2)pts.push(P(s[k],s[k+1]));return U+pts.join(" ");}).join("");
+}
+const mul=(m,n)=>[m[0]*n[0]+m[2]*n[1],m[1]*n[0]+m[3]*n[1],m[0]*n[2]+m[2]*n[3],m[1]*n[2]+m[3]*n[3],m[0]*n[4]+m[2]*n[5]+m[4],m[1]*n[4]+m[3]*n[5]+m[5]];
+const I=[1,0,0,1,0,0];
+const isI=m=>m.every((v,i)=>Math.abs(v-I[i])<1e-9);
+function txMarkup(markup,m){if(isI(m))return markup;return markup.replace(/ d="([^"]*)"/g,(_,d)=>{try{return ` d="${txPath(d,m)}"`;}catch(e){return ` d="${d}"`;}});}
+
+// ===== Parts: badge glyphs (drawn around 0,0), frames =====
+const MODS=[
+ {id:"none",he:"ללא"},
+ {id:"add",he:"פלוס",g:["M-1.5 0H1.5M0 -1.5V1.5"]},
+ {id:"minus",he:"מינוס",g:["M-1.5 0H1.5"]},
+ {id:"tick",he:"וי",g:["M-1.56 0L-0.57 0.99L1.56 -0.98"]},
+ {id:"remove",he:"איקס",g:["M-1.07 -1.06L1.07 1.08M1.07 -1.06L-1.07 1.08"]},
+ {id:"time",he:"שעון",g:["M0 -1.75V0.1L1.15 1"]},
+ {id:"warning",he:"אזהרה",g:["M0 -1.75V0.35"],dot:[0,1.75]},
+ {id:"up",he:"העלאה",g:["M0 1.6V-1.6M-1.3 -0.3L0 -1.6L1.3 -0.3"]},
+ {id:"down",he:"הורדה",g:["M0 -1.6V1.6M-1.3 0.3L0 1.6L1.3 0.3"]},
+ {id:"search",he:"חיפוש",open:true,g:["M-0.6 2.2A2.8 2.8 0 1 0 -0.6 -3.4A2.8 2.8 0 1 0 -0.6 2.2Z"],h:["M2.2 2.2L3.4 3.4"]},
+];
+const CORNERS=[{id:"br",he:"ימין למטה",c:[19,19]},{id:"bl",he:"שמאל למטה",c:[5,19]},{id:"tr",he:"ימין למעלה",c:[19,5]},{id:"tl",he:"שמאל למעלה",c:[5,5]}];
+const FRAMES=[
+ {id:"none",he:"ללא"},
+ {id:"circle",he:"עיגול",d:"M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"},
+ {id:"square",he:"ריבוע",d:"M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"},
+];
+const VARIANTS=["Linear","Outline","TwoTone","Bulk","Bold","Broken"];
+const VHE={Linear:"Linear",Outline:"Outline",TwoTone:"Two Tone",Bulk:"Bulk",Bold:"Bold",Broken:"Broken"};
+const XF=[{id:"flip",he:"היפוך אופקי"},{id:"rot",he:"סיבוב 90°"}];
+
+// ===== Hebrew search words → English name fragments =====
+const HE={"ארנק":"wallet","כסף":"money","קבלה":"receipt","כרטיס":"card","בית":"home","משתמש":"user","פרופיל":"profile","אנשים":"people","קבוצה":"people","לב":"heart","כוכב":"star","הודעה":"message","צ'אט":"message","מייל":"sms","מכתב":"direct","טלפון":"call","שיחה":"call","נייד":"mobile","מחשב":"monitor","לפטופ":"monitor","מצלמה":"camera","תמונה":"gallery","וידאו":"video","מוזיקה":"music","מיקרופון":"microphone","רמקול":"volume","שעון":"clock","זמן":"timer","טיימר":"timer","לוח שנה":"calendar","יומן":"calendar","תאריך":"calendar","התראה":"notification","פעמון":"notification","מנעול":"lock","אבטחה":"shield","מגן":"shield","מפתח":"key","הגדרות":"setting","גלגל שיניים":"setting","חיפוש":"search","זכוכית":"search","מסמך":"document","קובץ":"document","תיקייה":"folder","ענן":"cloud","הורדה":"import","העלאה":"export","שיתוף":"share","קישור":"link","עריכה":"edit","עט":"edit","מחיקה":"trash","פח":"trash","שמירה":"save","סימניה":"archive","מיקום":"location","מפה":"map","גלובוס":"global","עולם":"global","מכונית":"car","רכב":"car","אוטובוס":"bus","מטוס":"airplane","ספינה":"ship","משאית":"truck","משלוח":"truck","עגלה":"shopping","קניות":"bag","חנות":"shop","תג":"tag","מתנה":"gift","שמש":"sun","ירח":"moon","גשם":"cloud","ברק":"flash","טמפרטורה":"sun","מדחום":"sun","בניין":"building","בית חולים":"hospital","רופא":"hospital","בריאות":"health","תרופה":"health","ספר":"book","לימוד":"teacher","בית ספר":"teacher","גרף":"chart","תרשים":"chart","סטטיסטיקה":"graph","מצגת":"presention","קוד":"code","תכנות":"code","מסך":"monitor","מקלדת":"keyboard","עכבר":"mouse","סוללה":"battery","וויפיי":"wifi","בלוטות'":"bluetooth","חשמל":"flash","עין":"eye","הסתרה":"eye-slash","פלוס":"add","הוספה":"add","מינוס":"minus","וי":"tick","אישור":"tick","איקס":"close","סגירה":"close","חץ":"arrow","למעלה":"up","למטה":"down","ימינה":"right","שמאלה":"left","תפריט":"menu","רשימה":"task","משימה":"task","מטלה":"task","בדיקה":"clipboard","לוח":"clipboard","מדבקה":"sticker","צבע":"color","מברשת":"brush","עיפרון":"pen","מספריים":"scissor","שכבות":"layer","צורות":"shapes","גריד":"grid","מסנן":"filter","מיון":"sort","כלי":"tool","פטיש":"hammer","דגל":"flag","גביע":"cup","פרס":"medal","יהלום":"diamond","כתר":"crown","אש":"flash","קפה":"coffee","כוס":"cup","מזון":"reserve","אוכל":"reserve","בגד":"bag","משקפיים":"glass","כלב":"pet","חיה":"pet","שיר":"music","הקלטה":"record","נגן":"play","עצירה":"pause","השהיה":"pause","בית קפה":"coffee","מטבע":"coin","בנק":"bank","מחשבון":"calculator","אחוז":"percentage","הנחה":"discount","חשבונית":"receipt","תשלום":"card","מתג":"toggle","כפתור":"toggle","שאלה":"message-question","מידע":"info","עזרה":"message-question","אזהרה":"warning","שגיאה":"danger","טלוויזיה":"monitor","שעון יד":"watch","אוזניות":"headphone","מדפסת":"printer","רמזור":"traffic","דלק":"gas","חניה":"parking","מעלית":"elevator","דלת":"logout","יציאה":"logout","כניסה":"login","פאזל":"puzzle","משחק":"game","צ'ק":"tick","חיוך":"emoji","פרצוף":"emoji","אימוג'י":"emoji","שמח":"happy","עצוב":"sad","לייק":"like","אהבתי":"like","דיסלייק":"dislike","חבילה":"box","קופסה":"box","ארגז":"box","מזוודה":"briefcase","תיק":"briefcase","עבודה":"briefcase","מגפון":"speaker","פרסום":"speaker"};
+
+// ===== State =====
+let DATA=null,NAMES=[],CATS=[];
+const S={name:"ReceiptItem",variant:"Linear",mod:"add",corner:"br",frame:"none",flip:false,rot:0,color:"#292D32",grid:true};
+const DEF="#292D32";
+let setList=[];
+try{const v=JSON.parse(localStorage.getItem("iconComposer.set.v1")||"[]");if(Array.isArray(v))setList=v.filter(x=>x&&x.name);}catch(e){}
+const saveSet=()=>{try{localStorage.setItem("iconComposer.set.v1",JSON.stringify(setList.slice(0,300)));}catch(e){}};
+const $=id=>document.getElementById(id);
+const kebab=n=>n.replace(/([a-z0-9])([A-Z])/g,"$1-$2").replace(/([A-Z])([A-Z][a-z])/g,"$1-$2").toLowerCase();
+let uid=0;
+
+// ===== Compose one icon → {defs, body} with color placeholder "C" =====
+function compose(st){
+  const id="m"+(++uid);const v=st.variant;
+  const src=DATA[st.name].v;
+  let defs="",body="";
+  // base orientation
+  let m=I;
+  if(st.flip)m=mul([-1,0,0,1,24,0],m);
+  if(st.rot){const t=st.rot*Math.PI/180,cs=Math.round(Math.cos(t)),sn=Math.round(Math.sin(t));m=mul([cs,sn,-sn,cs,12-12*cs+12*sn,12-12*sn-12*cs],m);}
+  const lineVar=(v==="Bold"||v==="Bulk"||v==="TwoTone")?"Linear":v;
+  if(st.frame!=="none"){
+    const F=FRAMES.find(f=>f.id===st.frame).d;
+    const inner=txMarkup(src[lineVar]||src.Linear,mul([0.6,0,0,0.6,4.8,4.8],m));
+    if(v==="Bold"){
+      const knock=inner.replace(/stroke="C"/g,'stroke="#000"').replace(/fill="C"/g,'fill="#000"');
+      defs+=`<mask id="${id}k" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#fff"/><g fill="none">${knock}</g></mask>`;
+      body+=`<path d="${F}" fill="C" mask="url(#${id}k)"/>`;
+    }else if(v==="Bulk"){
+      body+=`<path opacity=".4" d="${F}" fill="C"/>`+inner;
+    }else{
+      body+=`<path d="${F}" stroke="C" stroke-width="1.5"/>`+(v==="TwoTone"?`<g opacity=".4">${inner}</g>`:inner);
+    }
+  }else{
+    body+=txMarkup(src[v]||src.Linear,m);
+  }
+  if(st.mod!=="none"){
+    const M=MODS.find(x=>x.id===st.mod);const C=CORNERS.find(c=>c.id===st.corner).c;
+    const T=[1,0,0,1,C[0],C[1]];
+    defs+=`<mask id="${id}c" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#fff"/><circle cx="${C[0]}" cy="${C[1]}" r="5.75" fill="#000"/></mask>`;
+    body=`<g mask="url(#${id}c)">${body}</g>`;
+    const glyph=M.g.map(d=>`<path d="${txPath(d,T)}" stroke="C" stroke-width="1.5"/>`).join("")+(M.dot?`<path d="M${R(C[0]+M.dot[0])} ${R(C[1]+M.dot[1])}h.01" stroke="C" stroke-width="2"/>`:"")+(M.h?M.h.map(d=>`<path d="${txPath(d,T)}" stroke="C" stroke-width="1.5"/>`).join(""):"");
+    const ring=`M${C[0]+4} ${C[1]}A4 4 0 1 1 ${C[0]-4} ${C[1]}A4 4 0 1 1 ${C[0]+4} ${C[1]}Z`;
+    if(M.open){
+      body+= v==="TwoTone"? M.g.map(d=>`<path d="${txPath(d,T)}" stroke="C" stroke-width="1.5"/>`).join("")+`<g opacity=".4">${M.h.map(d=>`<path d="${txPath(d,T)}" stroke="C" stroke-width="1.5"/>`).join("")}</g>`
+           : (v==="Bulk"||v==="Bold")? M.g.map(d=>`<path ${v==="Bulk"?'opacity=".4" ':""}d="${txPath(d,T)}" fill="C"/>`).join("")+glyph : glyph;
+    }else if(v==="Bold"){
+      const k=glyph.replace(/stroke="C"/g,'stroke="#000"');
+      defs+=`<mask id="${id}g" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#fff"/><g fill="none">${k}</g></mask>`;
+      body+=`<path d="${ring}" fill="C" mask="url(#${id}g)"/>`;
+    }else if(v==="Bulk"){
+      body+=`<path opacity=".4" d="${ring}" fill="C"/>`+glyph;
+    }else if(v==="TwoTone"){
+      body+=`<path d="${ring}" stroke="C" stroke-width="1.5"/><g opacity=".4">${glyph}</g>`;
+    }else{
+      body+=`<path d="${ring}" stroke="C" stroke-width="1.5"/>`+glyph;
+    }
+  }
+  return {defs,body};
+}
+function paint(markup,color){return markup.replace(/(stroke|fill)="C"/g,`$1="${color}"`);}
+function addCaps(markup){return markup.replace(/stroke-width="(1\.5|2)"/g,'stroke-width="$1" stroke-linecap="round" stroke-linejoin="round"');}
+function svgFile(st){
+  const {defs,body}=compose(st);
+  return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">${defs?`<defs>${defs}</defs>`:""}${addCaps(paint(body,st.color))}</svg>`;
+}
+function svgInline(st,extra=""){
+  const {defs,body}=compose(st);
+  const col=st.color.toLowerCase()===DEF.toLowerCase()?"currentColor":st.color;
+  return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">${extra}${defs?`<defs>${defs}</defs>`:""}${addCaps(paint(body,col))}</svg>`;
+}
+function gridLayer(){
+  let g=`<path d="M0 0H24V24H0Z M2 2V22H22V2Z" fill="var(--pad)" fill-rule="evenodd" opacity=".55"/>`;
+  for(let i=1;i<24;i++)g+=`<path d="M${i} 0V24M0 ${i}H24" stroke="var(--grid)" stroke-width="${i%4===0?0.06:0.03}"/>`;
+  g+=`<circle cx="12" cy="12" r="10" stroke="var(--accent)" stroke-width="0.04" opacity=".5"/><rect x="4" y="4" width="16" height="16" rx="1" stroke="var(--accent)" stroke-width="0.04" opacity=".5"/>`;
+  return g;
+}
+function nameOf(st){
+  let n=kebab(st.name);
+  if(st.frame!=="none")n+="-"+st.frame;
+  if(st.mod!=="none")n+="-"+st.mod;
+  if(st.flip)n+="-flip";if(st.rot)n+="-r"+st.rot;
+  return n;
+}
+
+// ===== UI =====
+function renderStage(){
+  if(!DATA)return;
+  $("stage").innerHTML=svgInline(S,S.grid?gridLayer():"");
+  $("iconName").textContent=nameOf(S)+" · "+VHE[S.variant];
+  $("sizes").innerHTML=[16,20,24,32,48].map(s=>`<figure><div style="width:${s}px;height:${s}px">${svgInline(S)}</div><figcaption>${s}</figcaption></figure>`).join("");
+  $("sizes").querySelectorAll("svg").forEach(e=>{e.style.width="100%";e.style.height="100%";});
+  $("code").textContent=svgFile(S);
+  $("gridBtn").setAttribute("aria-pressed",S.grid);
+  $("variantOpts").innerHTML=VARIANTS.map(v=>`<button type="button" data-variant="${v}" aria-pressed="${v===S.variant}">${svgInline({...S,variant:v})}${VHE[v]}</button>`).join("");
+  $("modOpts").innerHTML=MODS.map(o=>`<button type="button" data-mod="${o.id}" aria-pressed="${o.id===S.mod}">${svgInline({...S,mod:o.id})}${o.he}</button>`).join("");
+  $("cornerOpts").innerHTML=CORNERS.map(o=>`<button type="button" data-corner="${o.id}" aria-pressed="${o.id===S.corner}" ${S.mod==="none"?"disabled":""}>${o.he}</button>`).join("");
+  $("frameOpts").innerHTML=FRAMES.map(o=>`<button type="button" data-frame="${o.id}" aria-pressed="${o.id===S.frame}">${svgInline({...S,frame:o.id})}${o.he}</button>`).join("");
+  $("xfOpts").innerHTML=`<button type="button" data-xf="flip" aria-pressed="${S.flip}">היפוך אופקי</button><button type="button" data-xf="rot" aria-pressed="${!!S.rot}">סיבוב ${S.rot?S.rot+"°":"90°"}</button>`;
+  [...$("bin").querySelectorAll("[data-name]")].forEach(b=>b.setAttribute("aria-pressed",b.dataset.name===S.name));
+}
+let shown=0,filtered=[];
+const PAGE=180;
+function filterBin(){
+  const q=$("q").value.trim().toLowerCase(),c=$("cat").value;
+  let terms=[];
+  if(q){terms=[q.replace(/\s+/g,"")];for(const[he,en]of Object.entries(HE)){if(he.includes(q)||q.includes(he))terms.push(en);}}
+  filtered=NAMES.filter(n=>(!c||DATA[n].c===c)&&(!terms.length||terms.some(t=>n.toLowerCase().includes(t)||kebab(n).includes(t))));
+  shown=0;$("bin").innerHTML="";moreBin();
+}
+function moreBin(){
+  const slice=filtered.slice(shown,shown+PAGE);shown+=slice.length;
+  const st={...S,mod:"none",frame:"none",flip:false,rot:0};
+  $("bin").insertAdjacentHTML("beforeend",slice.map(n=>`<button type="button" class="tile" data-name="${n}" aria-pressed="${n===S.name}" title="${kebab(n)}">${svgInline({...st,name:n})}<span>${kebab(n)}</span></button>`).join("")||`<p class="empty">לא נמצאו אייקונים. אפשר לנסות מילה אחרת, או באנגלית.</p>`);
+  $("moreBtn").hidden=shown>=filtered.length;
+}
+function rebinVariant(){ // re-render visible tiles in the current style
+  const st={...S,mod:"none",frame:"none",flip:false,rot:0};
+  $("bin").querySelectorAll("[data-name]").forEach(b=>{b.querySelector("svg").outerHTML=svgInline({...st,name:b.dataset.name});});
+}
+function renderSet(){
+  $("setGrid").innerHTML=setList.length?setList.map((st,i)=>`<div style="position:relative"><button type="button" class="tile" data-set="${i}" style="width:100%" title="${nameOf(st)}">${svgInline(st)}<span>${nameOf(st)}</span></button><button type="button" class="x" data-del="${i}" aria-label="הסרה">×</button></div>`).join(""):`<p class="empty">עוד אין כאן אייקונים. מרכיבים אייקון ולוחצים ״הוספה לסט שלי״.</p>`;
+  $("zipBtn").disabled=!setList.length;$("clearSet").disabled=!setList.length;
+}
+function status(t,err){$("status").textContent=t;$("status").classList.toggle("err",!!err);}
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;const d=b.dataset;
+  if(d.variant){const ch=S.variant!==d.variant;S.variant=d.variant;renderStage();if(ch)rebinVariant();}
+  else if(d.mod){S.mod=d.mod;renderStage();}
+  else if(d.corner){S.corner=d.corner;renderStage();}
+  else if(d.frame){S.frame=d.frame;renderStage();}
+  else if(d.xf==="flip"){S.flip=!S.flip;renderStage();}
+  else if(d.xf==="rot"){S.rot=(S.rot+90)%360;renderStage();}
+  else if(d.name){S.name=d.name;renderStage();status("");window.scrollTo({top:0,behavior:"smooth"});}
+  else if(d.set){Object.assign(S,setList[+d.set]);$("color").value=S.color;renderStage();rebinVariant();window.scrollTo({top:0,behavior:"smooth"});}
+  else if(d.del){setList.splice(+d.del,1);saveSet();renderSet();}
+});
+$("gridBtn").onclick=()=>{S.grid=!S.grid;renderStage();};
+$("color").addEventListener("input",e=>{S.color=e.target.value;renderStage();});
+$("resetColor").onclick=()=>{S.color=DEF;$("color").value=DEF;renderStage();};
+$("q").addEventListener("input",()=>{clearTimeout(window.__qt);window.__qt=setTimeout(filterBin,150);});
+$("cat").addEventListener("change",filterBin);
+$("moreBtn").onclick=moreBin;
+$("addSetBtn").onclick=()=>{const {grid,...st}=S;setList.unshift({...st});saveSet();renderSet();status("נוסף לסט שלך.");};
+$("clearSet").onclick=()=>{if($("clearSet").dataset.armed){setList=[];saveSet();renderSet();delete $("clearSet").dataset.armed;$("clearSet").textContent="ניקוי הסט";status("הסט נוקה.");}else{$("clearSet").dataset.armed=1;$("clearSet").textContent="ללחוץ שוב לאישור";setTimeout(()=>{delete $("clearSet").dataset.armed;$("clearSet").textContent="ניקוי הסט";},3000);}};
+
+// ===== Saving files: Claude viewer capability, or a plain browser download elsewhere (e.g. Vercel) =====
+let downloads=null;const inViewer=!!(window.claude&&window.claude.use);
+if(inViewer){(async()=>{try{downloads=await window.claude.use("downloads");}catch(e){}if(!downloads){$("dlBtn").hidden=true;$("zipBtn").hidden=true;}})();}
+async function saveFile(name,blob){
+  if(downloads){try{await downloads.save({filename:name,data:blob});return true;}catch(e){if(e&&e.code!=="declined")status("ההורדה לא הצליחה. אפשר להשתמש ב״העתקת SVG״.",true);return false;}}
+  if(inViewer){status("הורדה לא זמינה כאן. אפשר להשתמש ב״העתקת SVG״.",true);return false;}
+  const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);return true;
+}
+$("dlBtn").onclick=async()=>{if(await saveFile(nameOf(S)+"-"+S.variant.toLowerCase()+".svg",new Blob([svgFile(S)],{type:"image/svg+xml"})))status("הקובץ נשמר.");};
+$("zipBtn").onclick=async()=>{
+  if(!window.JSZip){status("יצירת ZIP לא זמינה כרגע.",true);return;}
+  const z=new JSZip();const used={};
+  for(const st of setList){let n=nameOf(st)+"-"+st.variant.toLowerCase();used[n]=(used[n]||0)+1;if(used[n]>1)n+="-"+used[n];z.file(n+".svg",svgFile(st));}
+  const blob=await z.generateAsync({type:"blob"});
+  if(await saveFile("my-icons.zip",blob))status("הסט נשמר כ‑ZIP.");
+};
+$("copyBtn").onclick=async()=>{const s=svgFile(S);
+  try{await navigator.clipboard.writeText(s);status("ה‑SVG הועתק. אפשר להדביק בפיגמה.");}
+  catch(e){const d=$("code").closest("details");d.open=true;const r=document.createRange();r.selectNodeContents($("code"));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);status("ההעתקה האוטומטית חסומה כאן. הקוד מסומן, אפשר להעתיק עם Ctrl/Cmd+C.",true);}};
+
+// ===== Load the catalogue =====
+(async()=>{
+  try{
+    const r=await fetch("iconsax.json");DATA=await r.json();
+  }catch(e){status("לא הצלחתי לטעון את סט האייקונים. כדאי לרענן את הדף.",true);return;}
+  NAMES=Object.keys(DATA).sort();
+  CATS=[...new Set(NAMES.map(n=>DATA[n].c))].sort();
+  $("cat").insertAdjacentHTML("beforeend",CATS.map(c=>`<option value="${c}">${c}</option>`).join(""));
+  $("countSpec").innerHTML=`<b>${NAMES.length}</b> icons × <b>6</b> styles`;
+  renderStage();renderSet();filterBin();
+})();
+</script>
+
+</body>
+</html>
