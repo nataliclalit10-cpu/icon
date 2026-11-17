@@ -264,7 +264,7 @@ function compose(st){
       body+=`<path d="${F}" stroke="C" stroke-width="1.5"/>`+(v==="TwoTone"?`<g opacity=".4">${inner}</g>`:inner);
     }
   }else{
-    body+=txMarkup(src[v]||src.Linear,m);
+    body+=txMarkup(src[v]||src.Linear,m).replace(/id="m-([^"]+)"/g,`id="${id}-$1"`).replace(/url\(#m-([^)]+)\)/g,`url(#${id}-$1)`);
   }
   if(st.mod!=="none"){
     const M=MODS.find(x=>x.id===st.mod);const C=CORNERS.find(c=>c.id===st.corner).c;
@@ -337,7 +337,7 @@ function filterBin(){
   const q=$("q").value.trim().toLowerCase(),c=$("cat").value;
   let terms=[];
   if(q){terms=[q.replace(/\s+/g,"")];for(const[he,en]of Object.entries(HE)){if(he.includes(q)||q.includes(he))terms.push(en);}}
-  filtered=NAMES.filter(n=>(!c||DATA[n].c===c)&&(!terms.length||terms.some(t=>n.toLowerCase().includes(t)||kebab(n).includes(t))));
+  filtered=NAMES.filter(n=>(!c||DATA[n].c===c)&&(!terms.length||terms.some(t=>n.toLowerCase().includes(t)||kebab(n).includes(t))||(DATA[n].s&&DATA[n].s.includes(q))));
   shown=0;$("bin").innerHTML="";moreBin();
   $("resTitle").textContent=q?`תוצאות עבור ״${$("q").value.trim()}״`:(c?c:"כל האייקונים");
   $("resCount").textContent=`${filtered.length} אייקונים`;
@@ -345,7 +345,7 @@ function filterBin(){
 function moreBin(){
   const slice=filtered.slice(shown,shown+PAGE);shown+=slice.length;
   const st={...S,mod:"none",frame:"none",flip:false,rot:0};
-  $("bin").insertAdjacentHTML("beforeend",slice.map(n=>`<button type="button" class="tile" data-name="${n}" aria-pressed="${n===S.name}" title="${kebab(n)}">${svgInline({...st,name:n})}<span>${kebab(n)}</span></button>`).join("")||`<p class="empty">לא נמצאו אייקונים. אפשר לנסות מילה אחרת, או באנגלית.</p>`);
+  $("bin").insertAdjacentHTML("beforeend",slice.map(n=>`<button type="button" class="tile" data-name="${n}" aria-pressed="${n===S.name}" title="${DATA[n].h||kebab(n)}">${svgInline({...st,name:n})}<span>${DATA[n].h||kebab(n)}</span></button>`).join("")||`<p class="empty">לא נמצאו אייקונים. אפשר לנסות מילה אחרת, או באנגלית.</p>`);
   $("moreBtn").hidden=shown>=filtered.length;
 }
 function rebinVariant(){ // re-render visible tiles in the current style
