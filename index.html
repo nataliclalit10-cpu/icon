@@ -232,7 +232,7 @@ const HE={"ארנק":"wallet","כסף":"money","קבלה":"receipt","כרטיס"
 
 // ===== State =====
 let DATA=null,NAMES=[],CATS=[];
-const S={name:"ReceiptItem",variant:"Linear",mod:"add",corner:"br",frame:"none",flip:false,rot:0,color:"#292D32",grid:true};
+const S={name:"ReceiptItem",variant:"Linear",mod:"none",corner:"br",frame:"none",flip:false,rot:0,color:"#292D32",grid:true};
 const DEF="#292D32";
 let setList=[];
 try{const v=JSON.parse(localStorage.getItem("iconComposer.set.v1")||"[]");if(Array.isArray(v))setList=v.filter(x=>x&&x.name);}catch(e){}
